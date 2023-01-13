@@ -24,5 +24,16 @@ jobs:
             rvm gemset delete puppet-check --force
             exit 1
         fi
-	bundle exec rake strings:generate
+        bundle exec rake strings:generate
+        bundle exec rake lint
+        if [ $? -eq 0 ]; then
+          echo "Lint checks passed!"
+        else
+          echo "Lint checks failed"
+          rvm gemset delete puppet-check --force
+          exit 1
+        fi
+        rvm gemset delete puppet-check --force
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
