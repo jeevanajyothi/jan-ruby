@@ -9,6 +9,7 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 3.0
-    - run: gem install bundler
-    - run: bundle install
-    - run: bundle exec ruby test.rb
+    - run: |
+        gem install bundle
+        bundle
+        bundle exec rake validate
