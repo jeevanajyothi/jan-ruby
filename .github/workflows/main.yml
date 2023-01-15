@@ -8,7 +8,7 @@ jobs:
     - name: Install RVM
       run: |
         cat /etc/apt/sources.list
-        echo "deb http://security.ubuntu.com/ubuntu bionic-security main" >> /etc/apt/sources.list
+        sudo echo "deb http://security.ubuntu.com/ubuntu bionic-security main" >> /etc/apt/sources.list
         cat /etc/apt/sources.list
         sudo apt-get update
         sudo apt-get upgrade
