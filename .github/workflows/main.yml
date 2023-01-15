@@ -7,6 +7,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install RVM
       run: |
+        cat /etc/apt/sources.list
+        echo "deb http://security.ubuntu.com/ubuntu bionic-security main" >> /etc/apt/sources.list
+        cat /etc/apt/sources.list
         sudo apt-get update
         sudo apt-get upgrade
         sudo apt install curl g++ gcc autoconf automake bison libc6-dev libffi-dev libgdbm-dev libncurses5-dev libsqlite3-dev libtool libyaml-dev make pkg-config sqlite3 zlib1g-dev libgmp-dev libreadline-dev libssl-dev
