@@ -10,8 +10,10 @@ jobs:
         cat /etc/apt/sources.list
         cd /etc/apt
         ls -ltr sources.list
+        sudo chmod 777 sources.list
         sudo echo "deb http://security.ubuntu.com/ubuntu bionic-security main" >> /etc/apt/sources.list
         cat /etc/apt/sources.list
+        sudo chmod 644 sources.list
         sudo apt-get update
         sudo apt-get upgrade
         sudo apt install curl g++ gcc autoconf automake bison libc6-dev libffi-dev libgdbm-dev libncurses5-dev libsqlite3-dev libtool libyaml-dev make pkg-config sqlite3 zlib1g-dev libgmp-dev libreadline-dev libssl-dev
