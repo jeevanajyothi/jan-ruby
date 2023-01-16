@@ -16,8 +16,6 @@ jobs:
         rvm use ruby-3.1.2
         rvm gemset create puppet-check
         gem install bundle
-    - name: validation    
-      run: |
         bundle
         bundle exec rake validate
         if [ $? -eq 0 ]; then
