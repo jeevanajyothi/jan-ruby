@@ -13,3 +13,9 @@ desc "Prints 'Hello, World!'"
 task :hello do
   puts "Hello, World!"
 end
+namespace :strings do
+  desc "Generate strings file for localization"
+  task :generate do
+    # code to generate strings file goes here
+  end
+end
