@@ -1,4 +1,5 @@
 require 'rake'
+require 'rubocop'
 
 task :default => [:validate]
 
@@ -18,4 +19,10 @@ namespace :strings do
   task :generate do
     # code to generate strings file goes here
   end
+end
+
+desc "Run linter on the codebase"
+task :lint do
+  puts "Running linter..."
+  system("rubocop")
 end
