@@ -26,6 +26,7 @@ jobs:
           exit 1 
         fi
         bundle exec rake strings:generate
+        echo "this is for rake"
         bundle exec rake lint
         if [ $? -eq 0 ]; then
           echo "Lint checks passed!"
