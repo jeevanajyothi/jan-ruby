@@ -1,28 +1,18 @@
-require 'rake'
-require 'rubocop'
+require 'puppet-strings/tasks'
+require 'puppet-lint/tasks/puppet-lint'
+PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_autoloader_layout')
+PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
 
-task :default => [:validate]
-
-desc "Validates the code"
+desc "Validate manifests, templates, and ruby files"
 task :validate do
-  puts "Validating the code..."
-  # code to validate the code here
-  puts "Validation successful!"
-end
-
-desc "Prints 'Hello, World!'"
-task :hello do
-  puts "Hello, World!"
-end
-namespace :strings do
-  desc "Generate strings file for localization"
-  task :generate do
-    # code to generate strings file goes here
+  Dir['manifests/**/*.pp'].each do |manifest|
+    sh "puppet parser validate --noop #{manifest}"
   end
-end
-
-desc "Run linter on the codebase"
-task :lint do
-  puts "Running linter..."
-  system("rubocop")
+  Dir['spec/**/*.rb','lib/**/*.rb'].each do |ruby_file|
+    sh "ruby -c #{ruby_file}" unless ruby_file =~ /spec\/fixtures/
+  end
+  Dir['templates/**/*.erb'].each do |template|
+    sh "erb -P -x -T '-' #{template} | ruby -c"
+  end
 end
