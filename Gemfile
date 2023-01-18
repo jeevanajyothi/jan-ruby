@@ -1,7 +1,5 @@
-# Used for testing
-source 'https://rubygems.org'
-
-gem "rake"
-gem "path"
-gem "json", "2.2.0"
-gem 'rubocop'
+source "https://rubygems.org"
+gem 'rake', '10.4.2'
+gem 'puppet-strings', '1.1.0'
+gem 'puppet-lint', '2.2.1'
+gem 'puppet', '4.8.2'
