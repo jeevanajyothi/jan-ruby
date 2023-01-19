@@ -16,4 +16,20 @@ jobs:
         bundle install
     - name: Run Rake tests
       run: |
-        bundle exec rake test
+        bundle exec rake validate
+        if [ $? -eq 0 ]; then
+          echo "Validate checks passed!"
+        else
+          echo "Validate checks failed!"
+          exit 1 
+        fi
+        bundle exec rake strings:generate
+        bundle exec rake lint
+        if [ $? -eq 0 ]; then
+          echo "Lint checks passed!"
+        else
+          echo "Lint checks failed!"
+          exit 1
+        fi
+
+        
