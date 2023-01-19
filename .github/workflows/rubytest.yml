@@ -1,23 +1,15 @@
-name: Ruby
+name: Linting
 
-on:
-  push:
-    branches: [ test1 ]
-  pull_request:
-    branches: [ test1 ]
+on: [push]
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+      - uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
         with:
-          ruby-version: '3.1'
-      - name: Install dependencies
-        run: bundle install
-      - name: Run tests
-        run: bundle exec rake
+          ruby-version: 2.6
+      - run: bundle install
+      - name: Rubocop
+        run: rubocop
