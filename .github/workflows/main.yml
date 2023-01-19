@@ -5,10 +5,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup Ruby
-      uses: actions/setup-ruby@v2
-      with:
-        ruby-version: 2.7
-    - run: gem install bundler
-    - run: bundle install
-    - run: bundle exec ruby test.rb
+    - name: Install RVM
+      run: |
+        sudo apt update
+        gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+        \curl -sSL https://get.rvm.io | bash -s stable
+        source $HOME/.rvm/scripts/rvm
+        rvm install "ruby-3.0.3" --with-openssl-dir=/usr/local/opt/openssl
+        rvm use ruby-3.0.3
+        rvm gemset create puppet-check
+        gem install bundle
+        bundle
+        bundle exec rake validate
+        if [ $? -eq 0 ]; then
+          echo "Validate checks passed!"
+        else
+          echo "Validate checks failed!"
+          rvm gemset delete puppet-check --force
+          exit 1 
+        fi
+        bundle exec rake strings:generate
+        bundle exec rake lint
+        if [ $? -eq 0 ]; then
+          echo "Lint checks passed!"
+        else
+          echo "Lint checks failed!"
+          rvm gemset delete puppet-check --force
+          exit 1
+        fi
+        rvm gemset delete puppet-check --force
+        
+
