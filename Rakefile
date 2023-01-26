@@ -1,15 +1,18 @@
-require 'rake'
+require 'puppet-strings/tasks'
+require 'puppet-lint/tasks/puppet-lint'
+PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_autoloader_layout')
+PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
 
-task :default => [:validate]
-
-desc "Validates the code"
+desc "Validate manifests, templates, and ruby files"
 task :validate do
-  puts "Validating the code..."
-  # code to validate the code here
-  puts "Validation successful!"
-end
-
-desc "Prints 'Hello, World!'"
-task :hello do
-  puts "Hello, World!"
+  Dir['manifests/**/*.pp'].each do |manifest|
+    sh "puppet parser validate --noop #{manifest}"
+  end
+  Dir['spec/**/*.rb','lib/**/*.rb'].each do |ruby_file|
+    sh "ruby -c #{ruby_file}" unless ruby_file =~ /spec\/fixtures/
+  end
+  Dir['templates/**/*.erb'].each do |template|
+    sh "erb -P -x -T '-' #{template} | ruby -c"
+  end
 end
