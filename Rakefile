@@ -1,5 +1,6 @@
 require 'puppet-strings/tasks'
 require 'puppet-lint/tasks/puppet-lint'
+require 'concurrent'
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_autoloader_layout')
 PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
